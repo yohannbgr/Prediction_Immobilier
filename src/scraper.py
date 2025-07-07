@@ -6,7 +6,7 @@ import time
 
 NO_RESULT = "-"
 
-FILE_NAME = "annonces_idf.csv"
+FILE_NAME = "../data/raw_listings_idf.csv"
 DELAY_TIME = 0.1
 PRIX_MINIMUM = 10000
 
@@ -220,7 +220,7 @@ def scrape_and_save_annonces():
 
     print(f"Total des annonces valides sauvegardes : {valid_count}")
 
-soup = getSoup("https://www.immo-entre-particuliers.com/annonce-val-de-marne-lhay-les-roses/407514-belle-maison-familiale-au-calme")
+# soup = getSoup("https://www.immo-entre-particuliers.com/annonce-val-de-marne-lhay-les-roses/407514-belle-maison-familiale-au-calme")
 # print("Prix:", prix(soup))
 # print("Ville:", ville(soup))
 # print("Type:", type(soup))

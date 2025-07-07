@@ -4,7 +4,7 @@ import re
 
 # Question 8
 def charger_donnees():
-    annonces = pd.read_csv('annonces_idf.csv')
+    annonces = pd.read_csv('../data/raw_listings_idf.csv')
     print(f"{len(annonces)} annonces chargées.")
     print("Aperçu des données:")
     print(annonces.head())
@@ -44,9 +44,9 @@ def creer_variables_indicatrices(annonces):
 # Question 12
 def charger_donnees_villes():
     try:
-        return pd.read_csv('cities.csv', delimiter=',')
+        return pd.read_csv('../data/cities_coordinates.csv', delimiter=',')
     except Exception as e:
-        print(f"Erreur lors du chargement du fichier cities.csv: {e}")
+        print(f"Erreur lors du chargement du fichier cities_coordinates.csv: {e}")
         return None
 
 # Question 13 et 14
@@ -81,7 +81,7 @@ def executer_nettoyage_data():
 
     if 'Type_-' in annonces_final.columns:
         annonces_final = annonces_final.drop(columns=['Type_-'])
-    annonces_final.to_csv("annonces_nettoyees.csv", index=False)
+    annonces_final.to_csv("cleaned_listings_idf.csv", index=False)
     print(f"Nombre de colonnes après nettoyage: {len(annonces_final.columns)}")
     return annonces_final
 

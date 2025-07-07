@@ -25,7 +25,7 @@ Using `requests` and `BeautifulSoup`, we extract data from multiple listing page
 - **Energy rating (DPE)**
 - **Price** (only listings above €10,000)
 
-Data is saved to a CSV file: `annonces_idf.csv`.
+Data is saved to a CSV file: `raw_listings_idf.csv`.
 
 ---
 
@@ -40,10 +40,10 @@ The cleaning pipeline includes:
 3. **Dummy variable creation**:
    - One-hot encoding for DPE and property types.
 4. **Geographic enrichment**:
-   - Latitude and longitude added using a secondary CSV (`cities.csv`) with town coordinates.
+   - Latitude and longitude added using a secondary CSV (`cities_coordinates.csv`) with town coordinates.
 5. **Text normalization** for city name matching.
 
-Cleaned data is saved as: `annonces_nettoyees.csv`.
+Cleaned data is saved as: `cleaned_listings_idf.csv`.
 
 ---
 

@@ -10,7 +10,7 @@ from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.tree import DecisionTreeRegressor
 import seaborn as sns
 
-annonces_df = pd.read_csv('annonces_nettoyees.csv')
+annonces_df = pd.read_csv('../data/cleaned_listings_idf.csv')
 
 # Question 15
 X = annonces_df.drop('Prix', axis=1)
@@ -166,9 +166,11 @@ plt.scatter(y_test, y_pred, marker='*', color='green')
 plt.xlim(0, 1.6e6)
 plt.ylim(0, 1.6e6)
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='black', linestyle='--')
-plt.xlabel("Valeurs réelles (y_test)")
-plt.ylabel("Estimations (y_pred)")
-plt.title(f"Estimation vs Réalité - Méthode M: KNN5 + Normalisation")
+plt.xlabel("Actual Values (y_test)")
+plt.ylabel("Predictions (y_pred)")
+plt.title(f"Prediction vs Actual - Model M: KNN5 + Normalization")
+plt.tight_layout()
+plt.savefig("../images/modeleM_predict.png")
 plt.show()
 
 #TODO: Que constatez-vous ? Pensezvous que le jeu de données est suffisant pour construire un modèle d’apprentissage précis ?
@@ -244,9 +246,9 @@ sorted_corr_matrix = correlation_matrix.loc[sorted_cols, sorted_cols]
 
 plt.figure(figsize=(12, 10))
 sns.heatmap(sorted_corr_matrix, annot=True, fmt=".2f", cmap="coolwarm", square=True, cbar=True)
-plt.title("Matrice de corrélation triée par corrélation au prix")
+plt.title("Correlation Matrix Sorted by Correlation with Price")
 plt.tight_layout()
-plt.savefig("images/correlation_matrix_sorted.png")
+plt.savefig("../images/correlation_matrix_sorted.png")
 plt.show()
 
 
