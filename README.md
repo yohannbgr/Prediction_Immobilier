@@ -1,79 +1,88 @@
-# 🏠 Real Estate Price Prediction via Web Scraping and Machine Learning
+# 🏠 Prédiction des Prix Immobiliers par Web Scraping et Machine Learning
 
-![Prediction Results](images/modeleM_predict.png)
-*Figure 1 – Predicted vs Actual Prices using Model M (KNN + Normalization)*
+![Résultats de Prédiction](images/modeleM_predict.png)
+*Figure 1 – Prix Prédits vs Prix Réels avec le Modèle M (KNN + Normalisation)*
 
-![Correlation Matrix](images/correlation_matrix_sorted.png)
-*Figure 2 – Correlation Matrix Sorted by Correlation with Price*
-
----
-
-## 📌 Project Overview
-
-This project focuses on predicting real estate prices in the Île-de-France region using data scraped from the **immo-entre-particuliers.com** website. The process includes web scraping, cleaning and feature engineering, followed by regression modeling and evaluation using machine learning.
+![Matrice de Corrélation](images/correlation_matrix_sorted.png)
+*Figure 2 – Matrice de Corrélation Triée par Corrélation avec le Prix*
 
 ---
 
-## 🕸️ Part 1 – Web Scraping
+## Vue d'ensemble du Projet
 
-Using `requests` and `BeautifulSoup`, we extract data from multiple listing pages and individual real estate ads. The script captures the following fields:
-
-- **City** (`Ville`)
-- **Type** (House or Apartment)
-- **Surface area**
-- **Number of rooms, bedrooms, and bathrooms**
-- **Energy rating (DPE)**
-- **Price** (only listings above €10,000)
-
-Data is saved to a CSV file: `raw_listings_idf.csv`.
+Ce projet vise à prédire les prix de l'immobilier en Île-de-France à partir de données collectées sur le site **immo-entre-particuliers.com**. Le projet se décompose en trois parties : web scraping, nettoyage des données et modélisation par apprentissage automatique.
 
 ---
 
-## 🧹 Part 2 – Data Cleaning & Feature Engineering
+## Partie 1 – Web Scraping
 
-The cleaning pipeline includes:
+Nous avons extrait les données des annonces immobilières en utilisant `requests` et `BeautifulSoup`. Les informations collectées incluent :
 
-1. **Data inspection** – overview of the dataset.
-2. **Handling missing values**:
-   - DPE values (`-`) are replaced with `"Vierge"`.
-   - Numerical missing values are imputed with column means.
-3. **Dummy variable creation**:
-   - One-hot encoding for DPE and property types.
-4. **Geographic enrichment**:
-   - Latitude and longitude added using a secondary CSV (`cities_coordinates.csv`) with town coordinates.
-5. **Text normalization** for city name matching.
+- **Ville**
+- **Type** (Maison ou Appartement)
+- **Surface**
+- **Nombre de pièces, chambres et salles de bain**
+- **DPE** (Diagnostic de Performance Énergétique)
+- **Prix** (uniquement les annonces supérieures à 10 000 €)
 
-Cleaned data is saved as: `cleaned_listings_idf.csv`.
+Les données brutes sont sauvegardées dans : `annonces_idf.csv`
 
 ---
 
-## 🤖 Part 3 – Modeling & Evaluation
+## Partie 2 – Nettoyage et Préparation des Données
 
-Several regression models were tested to estimate property prices based on the cleaned dataset. The following models and preprocessing techniques were evaluated:
+Le processus de nettoyage comprend :
 
-- **Linear Regression (LR)**
-- **Decision Tree Regressor** (`DecisionTreeRegressor(max_depth=4)`)
-- **K-Nearest Neighbors** (`KNeighborsRegressor(n_neighbors=4)`)
-- Preprocessing: `MinMaxScaler` (Normalization) and `StandardScaler` (Standardization)
+1. **Inspection des données** – vérification de la conformité
+2. **Traitement des valeurs manquantes** :
+   - Les valeurs DPE manquantes (`-`) sont remplacées par `"Vierge"`
+   - Les valeurs numériques manquantes sont remplacées par la moyenne de la colonne
+3. **Création de variables indicatrices** :
+   - Encodage one-hot pour le DPE et le type de bien
+4. **Enrichissement géographique** :
+   - Ajout de la latitude et longitude via le fichier `cities.csv`
+5. **Normalisation des noms de villes** pour faciliter la jointure
 
-### Model M: K-Nearest Neighbors (KNN)
-
-- **Final Model**: `KNeighborsRegressor(n_neighbors=5)`
-- **Features**: All numeric and encoded variables from the cleaned dataset
-- **Preprocessing**: Normalization using `MinMaxScaler`
-- **Visualization**:
-  - *Figure 1*: Scatter plot comparing predicted vs actual prices
-  - *Figure 2*: Heatmap of feature correlations with the target (`Price`)
-
-### Additional Steps:
-- Dimensionality reduction using PCA (2 components)
-- Comparison of model performance with and without PCA
-
+Les données nettoyées sont sauvegardées dans : `annonces_nettoyees.csv`
 
 ---
 
-## 📈 Summary of Results
+## Partie 3 – Modélisation et Évaluation
 
-- KNN model on original features performs significantly better than the PCA-reduced model.
-- PCA with only 2 components led to underfitting (R² score ≈ -0.03).
-- Feature correlation analysis highlights the most impactful variables for price prediction.
+Plusieurs modèles de régression ont été testés pour prédire les prix immobiliers :
+
+- **Régression Linéaire (RL)**
+- **Arbre de Décision** avec profondeur maximale de 4
+- **K Plus Proches Voisins (KNN)** avec k=4 et k=5
+- Prétraitements : Normalisation (`MinMaxScaler`) et Standardisation (`StandardScaler`)
+
+### Modèle M : K Plus Proches Voisins (KNN)
+
+- **Modèle final** : `KNeighborsRegressor(n_neighbors=5)` avec normalisation
+- **Caractéristiques** : Toutes les variables numériques et encodées
+- **Score R²** : 
+  - Avec toutes les variables : 0.0471
+  - Avec les 5 meilleures variables : **0.1584** 
+
+### Analyses Complémentaires :
+- Réduction de dimensionnalité avec PCA (2 composantes) → Score R² : -0.03
+- Sélection des 5 variables les plus corrélées au prix → **Meilleure approche**
+
+---
+
+## 📈 Résultats Principaux
+
+- La sélection des 5 variables les plus corrélées améliore significativement les performances
+- La PCA avec 2 composantes dégrade les prédictions
+- L'analyse de corrélation révèle les variables les plus importantes pour prédire le prix
+- Les scores R² restent modestes, suggérant que le jeu de données pourrait être enrichi avec davantage de caractéristiques
+
+---
+
+## Technologies Utilisées
+
+- **Python 3.x**
+- **pandas** – manipulation de données
+- **scikit-learn** – modèles d'apprentissage automatique
+- **BeautifulSoup** – web scraping
+- **matplotlib** – visualisations
