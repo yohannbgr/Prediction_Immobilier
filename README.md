@@ -1,4 +1,4 @@
-# 🏠 Prédiction des Prix Immobiliers par Web Scraping et Machine Learning
+# Prédiction des Prix Immobiliers par Web Scraping et Machine Learning
 
 ![Résultats de Prédiction](images/modeleM_predict.png)
 *Figure 1 – Prix Prédits vs Prix Réels avec le Modèle M (KNN + Normalisation)*
@@ -70,7 +70,7 @@ Plusieurs modèles de régression ont été testés pour prédire les prix immob
 
 ---
 
-## 📈 Résultats Principaux
+## Résultats Principaux
 
 - La sélection des 5 variables les plus corrélées améliore significativement les performances
 - La PCA avec 2 composantes dégrade les prédictions
